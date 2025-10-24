@@ -41,9 +41,32 @@ if (!defined('ABSPATH')) {
                     </div>
                 </div>
 
-                <!-- Three Filter Dropdowns Below -->
+                <!-- Filter Dropdowns -->
                 <div class="row">
-                    <div class="col-12 col-md-6 col-lg-4">
+                    <?php if (count($boards_list) > 1): ?>
+                    <div class="col-12 col-md-6 col-lg-3">
+                        <div id="field-board" class="form-group row">
+                            <div class="field-label col-12">
+                                <label for="gh_board"><h3>Select Board</h3></label>
+                            </div>
+                            <div class="field-field col-12">
+                                <select name="gh_board"
+                                        id="gh_board"
+                                        class="form-control type__select">
+                                    <option value="">All Boards</option>
+                                    <?php foreach ($boards_list as $brd): ?>
+                                        <option value="<?php echo esc_attr($brd->board_name); ?>"
+                                                <?php selected($board, $brd->board_name); ?>>
+                                            <?php echo esc_html($brd->board_name); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+
+                    <div class="col-12 col-md-6 col-lg-<?php echo count($boards_list) > 1 ? '3' : '4'; ?>">
                         <div id="field-country" class="form-group row">
                             <div class="field-label col-12">
                                 <label for="gh_country"><h3>Select Country</h3></label>
@@ -64,7 +87,7 @@ if (!defined('ABSPATH')) {
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-4">
+                    <div class="col-12 col-md-6 col-lg-<?php echo count($boards_list) > 1 ? '3' : '4'; ?>">
                         <div id="field-location" class="form-group row">
                             <div class="field-label col-12">
                                 <label for="gh_location"><h3>Select Location</h3></label>
@@ -85,7 +108,7 @@ if (!defined('ABSPATH')) {
                         </div>
                     </div>
 
-                    <div class="col-12 col-md-6 col-lg-4">
+                    <div class="col-12 col-md-6 col-lg-<?php echo count($boards_list) > 1 ? '3' : '4'; ?>">
                         <div id="field-type" class="form-group row">
                             <div class="field-label col-12">
                                 <label for="gh_employment_type"><h3>Employment Type</h3></label>
@@ -182,12 +205,18 @@ if (!defined('ABSPATH')) {
                             ?>
                                 <li id="job-<?php echo esc_attr($job->gh_id); ?>"
                                     data-dept="<?php echo esc_attr($dept_name); ?>"
+                                    data-board="<?php echo esc_attr($job->board_name); ?>"
                                     class="keyword-match">
                                     <a href="<?php echo esc_url(home_url('/job/' . $job->gh_id)); ?>"
                                        class="d-flex align-items-center py-3">
                                         <div class="col job-detail pl-0">
                                             <div class="title">
                                                 <?php echo esc_html($job->title); ?>
+                                                <?php if (count($boards_list) > 1): ?>
+                                                    <span class="badge badge-secondary ml-2" style="font-size: 0.7em; vertical-align: middle;">
+                                                        <?php echo esc_html($job->board_name); ?>
+                                                    </span>
+                                                <?php endif; ?>
                                             </div>
                                             <div class="location">
                                                 <?php echo esc_html($job->location); ?>

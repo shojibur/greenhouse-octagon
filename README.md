@@ -4,11 +4,12 @@ A comprehensive WordPress plugin to import and display job listings from Greenho
 
 ## Features
 
+- **Multi-Board Support**: Import jobs from multiple Greenhouse job boards
 - **Automatic Job Import**: Pull job listings from Greenhouse API
 - **Database Storage**: Jobs stored in WordPress database for fast loading
 - **Configurable Sync**: Schedule automatic imports (hourly, twice daily, or daily)
 - **Manual Sync**: Trigger job imports manually from admin panel
-- **Advanced Filtering**: Search by keyword, location, and department
+- **Advanced Filtering**: Search by keyword, location, department, employment type, and board
 - **Department Sidebar**: Left sidebar showing all departments with job counts
 - **Responsive Design**: Mobile-friendly layout
 - **Single Job Pages**: Detailed job descriptions with application forms
@@ -27,24 +28,43 @@ A comprehensive WordPress plugin to import and display job listings from Greenho
 
 ### Settings Page (Settings → Greenhouse Jobs)
 
-1. **Greenhouse API URL**: Enter your Greenhouse board API URL
-   - Default: `https://boards-api.greenhouse.io/v1/boards/octagon/jobs?content=true`
-   - Format: `https://boards-api.greenhouse.io/v1/boards/[YOUR-BOARD]/jobs?content=true`
+#### 1. Job Boards Configuration
 
-2. **Sync Interval**: Choose how often to automatically sync jobs
-   - Hourly
-   - Twice Daily
-   - Daily (recommended)
+Add multiple Greenhouse job boards to import jobs from different companies or departments.
 
-3. **Custom CSS**: Add custom styles to override default plugin styles
+**To Add a Board:**
+- **Board Name**: Enter a unique identifier (e.g., "octagon", "sales-team", "engineering")
+- **Board API URL**: Enter the full Greenhouse API URL
+  - Format: `https://boards-api.greenhouse.io/v1/boards/[YOUR-BOARD]/jobs?content=true`
+  - Example: `https://boards-api.greenhouse.io/v1/boards/octagon/jobs?content=true`
+- Click "Add Board"
 
-4. **Manual Sync**: Click "Sync Jobs Now" to immediately pull latest jobs
+**To Remove a Board:**
+- Click "Remove" next to the board name
+- All jobs associated with that board will be deleted
+
+#### 2. Sync Interval
+
+Choose how often to automatically sync jobs from all configured boards:
+- Hourly
+- Twice Daily
+- Daily (recommended)
+
+#### 3. Custom CSS
+
+Add custom styles to override default plugin styles
+
+#### 4. Manual Sync
+
+Click "Sync All Boards Now" to immediately pull latest jobs from all configured boards
 
 ## Usage
 
 ### Display Job Listings
 
-Add the following shortcode to any page or post:
+#### Basic Usage
+
+Add the following shortcode to any page or post to display all jobs from all boards:
 
 ```
 [gh_octagon_jobs]
@@ -52,9 +72,46 @@ Add the following shortcode to any page or post:
 
 This will display:
 - Search bar (keyword search)
-- Location filter dropdown
+- Board filter dropdown (when multiple boards are configured)
+- Country, location, and employment type filters
 - Department sidebar with job counts
 - Job listings with pagination
+
+#### Filter by Specific Board
+
+To display jobs from only one specific board:
+
+```
+[gh_octagon_jobs board="octagon"]
+```
+
+Replace `octagon` with your board name.
+
+**Examples:**
+
+```
+[gh_octagon_jobs board="engineering"]
+```
+
+```
+[gh_octagon_jobs board="sales-team"]
+```
+
+#### URL Parameters
+
+Users can filter jobs using URL parameters:
+
+- `?gh_search=developer` - Search by keyword
+- `?gh_board=octagon` - Filter by board
+- `?gh_country=United States` - Filter by country
+- `?gh_location=New York` - Filter by city
+- `?gh_employment_type=Full-time` - Filter by employment type
+- `?gh_department=Engineering` - Filter by department
+
+**Combined filters example:**
+```
+https://yoursite.com/careers/?gh_board=octagon&gh_location=London&gh_employment_type=Full-time
+```
 
 ### Single Job Pages
 
@@ -73,6 +130,14 @@ Each single job page includes:
 1. Create a new page (e.g., "Careers")
 2. Add the shortcode: `[gh_octagon_jobs]`
 3. Publish the page
+
+**Multiple Boards Example:**
+
+If you have multiple departments with separate boards, you can create dedicated pages:
+
+- **Careers Page** (all jobs): `[gh_octagon_jobs]`
+- **Engineering Careers**: `[gh_octagon_jobs board="engineering"]`
+- **Sales Careers**: `[gh_octagon_jobs board="sales-team"]`
 
 ## File Structure
 
@@ -94,7 +159,8 @@ greenhouse-octagon/
 The plugin creates a table `wp_gh_octagon_jobs` with the following fields:
 
 - `id` - Auto-increment ID
-- `gh_id` - Greenhouse job ID (unique)
+- `board_name` - Board identifier (e.g., "octagon", "sales-team")
+- `gh_id` - Greenhouse job ID
 - `internal_job_id` - Internal job ID
 - `requisition_id` - Requisition ID
 - `absolute_url` - Greenhouse job URL
@@ -103,11 +169,14 @@ The plugin creates a table `wp_gh_octagon_jobs` with the following fields:
 - `location_city` - Parsed city
 - `location_state` - Parsed state
 - `location_country` - Parsed country
+- `employment_type` - Employment type (Full-time, Part-time, etc.)
 - `content` - Full job description HTML
 - `metadata` - Job metadata JSON
 - `departments` - Departments JSON array
 - `offices` - Offices JSON array
 - `updated_at` - Last update timestamp
+
+**Note:** The unique key is `(board_name, gh_id)` to allow the same job ID across different boards.
 
 ## Customization
 
@@ -152,6 +221,15 @@ your-theme/
 For issues or questions, contact: [shojibur.com](https://shojibur.com)
 
 ## Changelog
+
+### Version 1.1.0
+- **Multi-board support**: Import jobs from multiple Greenhouse boards
+- Added board filter to job listings
+- Board management UI in settings
+- Database schema updated with `board_name` column
+- Shortcode now accepts `board` parameter
+- Display board badges when multiple boards are configured
+- Backward compatible with single board installations
 
 ### Version 1.0.0
 - Initial release

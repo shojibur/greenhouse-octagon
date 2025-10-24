@@ -47,6 +47,7 @@ function gh_octagon_create_table() {
 
     $sql = "CREATE TABLE $table_name (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
+        board_name varchar(255) NOT NULL,
         gh_id bigint(20) NOT NULL,
         internal_job_id bigint(20),
         requisition_id text,
@@ -63,7 +64,7 @@ function gh_octagon_create_table() {
         offices longtext,
         updated_at datetime DEFAULT CURRENT_TIMESTAMP,
         PRIMARY KEY  (id),
-        UNIQUE KEY gh_id (gh_id)
+        UNIQUE KEY board_gh_id (board_name, gh_id)
     ) $charset_collate;";
 
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
@@ -91,28 +92,48 @@ function gh_octagon_import_jobs() {
     global $wpdb;
     $table_name = $wpdb->prefix . 'gh_octagon_jobs';
 
-    $api_url = get_option('gh_octagon_api_url', 'https://boards-api.greenhouse.io/v1/boards/octagon/jobs?content=true');
+    // Get configured boards
+    $boards = get_option('gh_octagon_boards', array());
 
-    $response = wp_remote_get($api_url, array('timeout' => 30));
-
-    if (is_wp_error($response)) {
-        error_log('Greenhouse API Error: ' . $response->get_error_message());
-        return false;
-    }
-
-    $data = json_decode(wp_remote_retrieve_body($response), true);
-
-    if (empty($data['jobs'])) {
-        return false;
+    // Backward compatibility: check for old single API URL setting
+    if (empty($boards)) {
+        $old_api_url = get_option('gh_octagon_api_url');
+        if (!empty($old_api_url)) {
+            // Extract board name from URL
+            preg_match('/\/boards\/([^\/]+)\//', $old_api_url, $matches);
+            $board_name = isset($matches[1]) ? $matches[1] : 'octagon';
+            $boards = array($board_name => $old_api_url);
+        } else {
+            error_log('Greenhouse: No boards configured');
+            return false;
+        }
     }
 
     // Clear transients
     gh_octagon_clear_transients();
 
-    // Clear existing jobs
-    $wpdb->query("DELETE FROM $table_name");
+    $success_count = 0;
 
-    foreach ($data['jobs'] as $job) {
+    // Import jobs from each board
+    foreach ($boards as $board_name => $api_url) {
+        $response = wp_remote_get($api_url, array('timeout' => 30));
+
+        if (is_wp_error($response)) {
+            error_log('Greenhouse API Error for board ' . $board_name . ': ' . $response->get_error_message());
+            continue;
+        }
+
+        $data = json_decode(wp_remote_retrieve_body($response), true);
+
+        if (empty($data['jobs'])) {
+            error_log('Greenhouse: No jobs found for board ' . $board_name);
+            continue;
+        }
+
+        // Delete existing jobs for this board only
+        $wpdb->delete($table_name, array('board_name' => $board_name), array('%s'));
+
+        foreach ($data['jobs'] as $job) {
         // Parse location with better logic
         $location_full = $job['location']['name'];
         $location_city = '';
@@ -202,31 +223,35 @@ function gh_octagon_import_jobs() {
             }
         }
 
-        $wpdb->replace(
-            $table_name,
-            array(
-                'gh_id' => $job['id'],
-                'internal_job_id' => $job['internal_job_id'],
-                'requisition_id' => $job['requisition_id'],
-                'absolute_url' => $job['absolute_url'],
-                'title' => $job['title'],
-                'location' => $job['location']['name'],
-                'location_city' => $location_city,
-                'location_state' => $location_state,
-                'location_country' => $location_country,
-                'employment_type' => $employment_type,
-                'content' => html_entity_decode($job['content']),
-                'metadata' => json_encode($job['metadata']),
-                'departments' => json_encode($job['departments']),
-                'offices' => json_encode($job['offices']),
-                'updated_at' => current_time('mysql')
-            ),
-            array('%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
-        );
+            $wpdb->replace(
+                $table_name,
+                array(
+                    'board_name' => $board_name,
+                    'gh_id' => $job['id'],
+                    'internal_job_id' => $job['internal_job_id'],
+                    'requisition_id' => $job['requisition_id'],
+                    'absolute_url' => $job['absolute_url'],
+                    'title' => $job['title'],
+                    'location' => $job['location']['name'],
+                    'location_city' => $location_city,
+                    'location_state' => $location_state,
+                    'location_country' => $location_country,
+                    'employment_type' => $employment_type,
+                    'content' => html_entity_decode($job['content']),
+                    'metadata' => json_encode($job['metadata']),
+                    'departments' => json_encode($job['departments']),
+                    'offices' => json_encode($job['offices']),
+                    'updated_at' => current_time('mysql')
+                ),
+                array('%s', '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')
+            );
+        }
+
+        $success_count++;
     }
 
     update_option('gh_octagon_last_sync', current_time('mysql'));
-    return true;
+    return $success_count > 0;
 }
 
 // Clear all transients
@@ -296,11 +321,25 @@ function gh_octagon_get_employment_types() {
     return $types;
 }
 
+// Get unique boards
+function gh_octagon_get_boards() {
+    global $wpdb;
+    $table_name = $wpdb->prefix . 'gh_octagon_jobs';
+
+    $boards = $wpdb->get_results("SELECT DISTINCT board_name FROM $table_name WHERE board_name != '' ORDER BY board_name");
+    return $boards;
+}
+
 // Job listing shortcode
 add_shortcode('gh_octagon_jobs', 'gh_octagon_jobs_shortcode');
 function gh_octagon_jobs_shortcode($atts) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'gh_octagon_jobs';
+
+    // Parse shortcode attributes
+    $atts = shortcode_atts(array(
+        'board' => '', // Optional: filter by specific board
+    ), $atts);
 
     // Get filters
     $search = isset($_GET['gh_search']) ? sanitize_text_field($_GET['gh_search']) : '';
@@ -308,6 +347,7 @@ function gh_octagon_jobs_shortcode($atts) {
     $country = isset($_GET['gh_country']) ? sanitize_text_field($_GET['gh_country']) : '';
     $location = isset($_GET['gh_location']) ? sanitize_text_field($_GET['gh_location']) : '';
     $employment_type = isset($_GET['gh_employment_type']) ? sanitize_text_field($_GET['gh_employment_type']) : '';
+    $board = isset($_GET['gh_board']) ? sanitize_text_field($_GET['gh_board']) : $atts['board'];
 
     // Pagination
     $page = isset($_GET['jobpage']) ? max(1, intval($_GET['jobpage'])) : 1;
@@ -346,6 +386,11 @@ function gh_octagon_jobs_shortcode($atts) {
         $where_values[] = $employment_type;
     }
 
+    if ($board) {
+        $where[] = 'board_name = %s';
+        $where_values[] = $board;
+    }
+
     $where_sql = implode(' AND ', $where);
 
     // Get total count
@@ -370,6 +415,7 @@ function gh_octagon_jobs_shortcode($atts) {
     $countries = gh_octagon_get_countries();
     $locations = gh_octagon_get_locations();
     $employment_types = gh_octagon_get_employment_types();
+    $boards_list = gh_octagon_get_boards();
 
     // Start output
     ob_start();
@@ -435,7 +481,8 @@ function gh_octagon_admin_menu() {
 // Register settings
 add_action('admin_init', 'gh_octagon_register_settings');
 function gh_octagon_register_settings() {
-    register_setting('gh_octagon_settings', 'gh_octagon_api_url');
+    register_setting('gh_octagon_settings', 'gh_octagon_api_url'); // Keep for backward compatibility
+    register_setting('gh_octagon_settings', 'gh_octagon_boards');
     register_setting('gh_octagon_settings', 'gh_octagon_sync_interval');
     register_setting('gh_octagon_settings', 'gh_octagon_custom_css');
 }
@@ -444,6 +491,41 @@ function gh_octagon_register_settings() {
 function gh_octagon_settings_page() {
     if (!current_user_can('manage_options')) {
         return;
+    }
+
+    // Handle add board
+    if (isset($_POST['gh_octagon_add_board']) && check_admin_referer('gh_octagon_add_board')) {
+        $board_name = sanitize_text_field($_POST['board_name']);
+        $board_url = esc_url_raw($_POST['board_api_url']);
+
+        if (!empty($board_name) && !empty($board_url)) {
+            $boards = get_option('gh_octagon_boards', array());
+            $boards[$board_name] = $board_url;
+            update_option('gh_octagon_boards', $boards);
+            add_settings_error('gh_octagon_messages', 'gh_octagon_message', 'Board added successfully!', 'updated');
+        }
+    }
+
+    // Handle remove board
+    if (isset($_POST['gh_octagon_remove_board']) && check_admin_referer('gh_octagon_remove_board')) {
+        $board_name = sanitize_text_field($_POST['remove_board_name']);
+        $boards = get_option('gh_octagon_boards', array());
+        if (isset($boards[$board_name])) {
+            // Remove board from configuration
+            unset($boards[$board_name]);
+            update_option('gh_octagon_boards', $boards);
+
+            // Delete all jobs associated with this board
+            global $wpdb;
+            $table_name = $wpdb->prefix . 'gh_octagon_jobs';
+            $deleted = $wpdb->delete($table_name, array('board_name' => $board_name), array('%s'));
+
+            // Clear transients
+            gh_octagon_clear_transients();
+
+            add_settings_error('gh_octagon_messages', 'gh_octagon_message',
+                sprintf('Board removed successfully! %d jobs deleted.', $deleted), 'updated');
+        }
     }
 
     // Handle manual sync
@@ -457,9 +539,78 @@ function gh_octagon_settings_page() {
     }
 
     settings_errors('gh_octagon_messages');
+
+    $boards = get_option('gh_octagon_boards', array());
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
+
+        <h2>Job Boards Configuration</h2>
+        <p>Add multiple Greenhouse job boards to import jobs from different companies or departments.</p>
+
+        <table class="wp-list-table widefat fixed striped">
+            <thead>
+                <tr>
+                    <th>Board Name</th>
+                    <th>API URL</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($boards)): ?>
+                    <tr>
+                        <td colspan="3">No boards configured yet. Add your first board below.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($boards as $name => $url): ?>
+                        <tr>
+                            <td><strong><?php echo esc_html($name); ?></strong></td>
+                            <td><?php echo esc_html($url); ?></td>
+                            <td>
+                                <form method="post" style="display:inline;">
+                                    <?php wp_nonce_field('gh_octagon_remove_board'); ?>
+                                    <input type="hidden" name="remove_board_name" value="<?php echo esc_attr($name); ?>" />
+                                    <input type="submit" name="gh_octagon_remove_board" class="button button-small" value="Remove"
+                                           onclick="return confirm('Are you sure you want to remove this board? All jobs from this board will be deleted.');" />
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+
+        <h3>Add New Board</h3>
+        <form method="post">
+            <?php wp_nonce_field('gh_octagon_add_board'); ?>
+            <table class="form-table">
+                <tr>
+                    <th scope="row">
+                        <label for="board_name">Board Name</label>
+                    </th>
+                    <td>
+                        <input type="text" id="board_name" name="board_name" class="regular-text" required
+                               placeholder="e.g., octagon, company-name" />
+                        <p class="description">A unique identifier for this board (e.g., "octagon", "sales-team")</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="board_api_url">Board API URL</label>
+                    </th>
+                    <td>
+                        <input type="url" id="board_api_url" name="board_api_url" class="regular-text" required
+                               placeholder="https://boards-api.greenhouse.io/v1/boards/BOARD_NAME/jobs?content=true" />
+                        <p class="description">The full Greenhouse API URL for this board</p>
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <input type="submit" name="gh_octagon_add_board" class="button button-primary" value="Add Board" />
+            </p>
+        </form>
+
+        <hr>
 
         <form action="options.php" method="post">
             <?php
@@ -470,18 +621,6 @@ function gh_octagon_settings_page() {
             <table class="form-table">
                 <tr>
                     <th scope="row">
-                        <label for="gh_octagon_api_url">Greenhouse API URL</label>
-                    </th>
-                    <td>
-                        <input type="url" id="gh_octagon_api_url" name="gh_octagon_api_url"
-                               value="<?php echo esc_attr(get_option('gh_octagon_api_url', 'https://boards-api.greenhouse.io/v1/boards/octagon/jobs?content=true')); ?>"
-                               class="regular-text" />
-                        <p class="description">Enter the Greenhouse board API URL</p>
-                    </td>
-                </tr>
-
-                <tr>
-                    <th scope="row">
                         <label for="gh_octagon_sync_interval">Sync Interval</label>
                     </th>
                     <td>
@@ -490,7 +629,7 @@ function gh_octagon_settings_page() {
                             <option value="twicedaily" <?php selected(get_option('gh_octagon_sync_interval', 'daily'), 'twicedaily'); ?>>Twice Daily</option>
                             <option value="daily" <?php selected(get_option('gh_octagon_sync_interval', 'daily'), 'daily'); ?>>Daily</option>
                         </select>
-                        <p class="description">How often to automatically sync jobs from Greenhouse</p>
+                        <p class="description">How often to automatically sync jobs from all configured boards</p>
                     </td>
                 </tr>
 
@@ -515,7 +654,7 @@ function gh_octagon_settings_page() {
             <?php wp_nonce_field('gh_octagon_manual_sync'); ?>
             <p>Last sync: <?php echo esc_html(get_option('gh_octagon_last_sync', 'Never')); ?></p>
             <p>
-                <input type="submit" name="gh_octagon_manual_sync" class="button button-primary" value="Sync Jobs Now" />
+                <input type="submit" name="gh_octagon_manual_sync" class="button button-primary" value="Sync All Boards Now" />
             </p>
         </form>
     </div>
