@@ -1,0 +1,760 @@
+/**
+ * Greenhouse Octagon Job Board Styles
+ * All styles are prefixed with .greenhouse to prevent conflicts
+ */
+
+/* ===========================
+   Base Styles & Layout
+   =========================== */
+
+.greenhouse,
+#gh-octagon-jobs.greenhouse {
+  margin: 40px 0;
+  width: 100%;
+}
+
+.greenhouse *,
+.greenhouse *::before,
+.greenhouse *::after,
+#gh-octagon-jobs.greenhouse *,
+#gh-octagon-jobs.greenhouse *::before,
+#gh-octagon-jobs.greenhouse *::after {
+  box-sizing: border-box;
+}
+
+.greenhouse.wrapper,
+#gh-octagon-jobs.greenhouse.wrapper {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.greenhouse .container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .greenhouse .container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .greenhouse .container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .greenhouse .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .greenhouse .container {
+    max-width: 1140px;
+  }
+}
+
+/* Grid System */
+.greenhouse .row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.greenhouse .col,
+.greenhouse .col-12,
+.greenhouse .col-md-6,
+.greenhouse .col-lg-4,
+.greenhouse .col-lg-8 {
+  position: relative;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.greenhouse .col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .greenhouse .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 992px) {
+  .greenhouse .col-lg-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+  }
+  .greenhouse .col-lg-8 {
+    flex: 0 0 66.666667%;
+    max-width: 66.666667%;
+  }
+}
+
+/* Search field specific width */
+.greenhouse #field-keyword .field-field {
+  max-width: 66.666667% !important;
+}
+
+@media (max-width: 991px) {
+  .greenhouse #field-keyword .field-field {
+    max-width: 100% !important;
+  }
+}
+
+/* Utility Classes */
+.greenhouse .d-flex {
+  display: flex !important;
+}
+
+.greenhouse .align-items-center {
+  align-items: center !important;
+}
+
+.greenhouse .px-0 {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.greenhouse .pl-0 {
+  padding-left: 0 !important;
+}
+
+.greenhouse .py-3 {
+  padding-top: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+
+.greenhouse .mt-3 {
+  margin-top: 1rem !important;
+}
+
+.greenhouse .mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.greenhouse .d-none {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .greenhouse .d-md-none {
+    display: none !important;
+  }
+  .greenhouse .d-md-block {
+    display: block !important;
+  }
+}
+
+/* ===========================
+   Typography
+   =========================== */
+
+.greenhouse h2,
+.greenhouse h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #e7010a !important;
+}
+
+.greenhouse h2 {
+  font-size: 2rem !important;
+}
+
+.greenhouse h3 {
+  font-size: 1.2rem !important;
+}
+
+/* ===========================
+   Form Styles
+   =========================== */
+
+.greenhouse .form-group {
+  margin-bottom: 1rem;
+}
+
+.greenhouse .field-label {
+  margin-bottom: 0.5rem;
+}
+
+.greenhouse .field-label label {
+  margin-bottom: 0;
+  font-weight: bold;
+  display: inline;
+}
+
+.greenhouse .field-label h3 {
+  display: inline-block;
+  margin: 0;
+}
+
+.greenhouse .form-control,
+.greenhouse input.form-control,
+.greenhouse select.form-control {
+  display: block !important;
+  width: 100% !important;
+  padding: 0.375rem 0.75rem !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  color: #495057 !important;
+  background-color: #fff !important;
+  background-clip: padding-box !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.greenhouse .form-control:focus,
+.greenhouse input.form-control:focus,
+.greenhouse select.form-control:focus {
+  color: #495057 !important;
+  background-color: #fff !important;
+  border-color: #94823b !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0.2rem rgba(148, 130, 59, 0.25) !important;
+}
+
+.greenhouse select.form-control {
+  appearance: auto !important;
+  -webkit-appearance: menulist !important;
+  -moz-appearance: menulist !important;
+}
+
+/* Input Group */
+.greenhouse .input-group,
+.greenhouse div.input-group {
+  position: relative !important;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
+.greenhouse .input-group > .form-control,
+.greenhouse .input-group > input.form-control {
+  position: relative !important;
+  flex: 1 1 auto !important;
+  width: 1% !important;
+  min-width: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.greenhouse .input-group > .form-control:not(:last-child),
+.greenhouse .input-group > input.form-control:not(:last-child) {
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.greenhouse .input-group-append,
+.greenhouse div.input-group-append {
+  display: flex !important;
+  margin-left: -1px !important;
+  flex-shrink: 0 !important;
+}
+
+.greenhouse .input-group-text,
+.greenhouse span.input-group-text {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0.375rem 0.75rem !important;
+  margin-bottom: 0 !important;
+  font-size: 1rem !important;
+  font-weight: 400 !important;
+  line-height: 1.5 !important;
+  color: #495057 !important;
+  text-align: center !important;
+  white-space: nowrap !important;
+  background-color: #e9ecef !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 0.25rem !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+.greenhouse #field-keyword .input-group-text,
+.greenhouse #field-keyword button.input-group-text {
+  background-color: #94823b !important;
+  color: #fff !important;
+  border-color: #94823b !important;
+  cursor: pointer !important;
+  border: 1px solid #94823b !important;
+}
+
+.greenhouse #field-keyword .input-group-text:hover,
+.greenhouse #field-keyword button.input-group-text:hover {
+  color: #fff !important;
+  background-color: #796a30 !important;
+  border-color: #70622c !important;
+}
+
+/* ===========================
+   Department List
+   =========================== */
+
+.greenhouse #list-dept {
+  list-style: none;
+  padding: 0;
+  border-bottom: 1px solid #ced4da;
+}
+
+.greenhouse #list-dept li {
+  border-top: 1px solid #ced4da;
+  cursor: pointer;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.greenhouse #list-dept li a {
+  color: #212529;
+  text-decoration: none;
+  display: block;
+}
+
+.greenhouse #list-dept li:hover,
+.greenhouse #list-dept li.active {
+  background-color: rgba(148, 130, 59, 0.5);
+}
+
+.greenhouse #list-dept li.active {
+  font-weight: 700;
+}
+
+.greenhouse #list-dept li a:hover {
+  text-decoration: none;
+}
+
+/* ===========================
+   Job List
+   =========================== */
+
+.greenhouse #list-jobs {
+  list-style: none;
+  padding: 0;
+  border-bottom: 1px solid #ced4da;
+}
+
+.greenhouse #list-jobs li {
+  border-top: 1px solid #ced4da;
+  cursor: pointer;
+}
+
+.greenhouse #list-jobs a {
+  color: #212529;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-decoration: none;
+}
+
+.greenhouse #list-jobs a:hover {
+  text-decoration: none;
+  background-color: rgba(148, 130, 59, 0.5);
+}
+
+.greenhouse #list-jobs a .job-detail .title {
+  font-weight: bold;
+  color: #e7010a;
+  margin-bottom: 0.25rem;
+}
+
+.greenhouse #list-jobs a .job-detail .location {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.greenhouse #list-jobs a .fas {
+  font-size: 1.25rem;
+  color: #6c757d;
+}
+
+.greenhouse .col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+/* ===========================
+   No Jobs Message
+   =========================== */
+
+.greenhouse .gh-no-jobs {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.greenhouse .gh-no-jobs p {
+  color: #666;
+  margin: 0;
+}
+
+/* ===========================
+   Pagination
+   =========================== */
+
+.greenhouse .gh-pagination {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.greenhouse .gh-pagination ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 8px;
+}
+
+.greenhouse .gh-pagination li {
+  display: inline-block;
+}
+
+.greenhouse .gh-pagination a,
+.greenhouse .gh-pagination span {
+  display: block;
+  padding: 10px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #333;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.greenhouse .gh-pagination a:hover {
+  background: #94823b;
+  color: white;
+  border-color: #94823b;
+}
+
+.greenhouse .gh-pagination .current {
+  background: #94823b;
+  color: white;
+  border-color: #94823b;
+}
+
+/* ===========================
+   Single Job Page Styles
+   =========================== */
+
+.greenhouse .justify-content-end {
+  justify-content: flex-end !important;
+}
+
+.greenhouse .mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.greenhouse .btn {
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 0.25rem;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.greenhouse .btn-secondary {
+  color: #fff;
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.greenhouse .btn-secondary:hover {
+  color: #fff;
+  background-color: #5a6268;
+  border-color: #545b62;
+}
+
+.greenhouse .btn-primary {
+  color: #fff;
+  background-color: #94823b;
+  border-color: #94823b;
+}
+
+.greenhouse .btn-primary:hover {
+  color: #fff;
+  background-color: #796a30;
+  border-color: #70622c;
+}
+
+.greenhouse h2 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #212529;
+}
+
+.greenhouse .location {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.greenhouse .text-muted {
+  color: #6c757d !important;
+}
+
+.greenhouse .font-italic {
+  font-style: italic !important;
+}
+
+.greenhouse .small {
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.greenhouse .content {
+  line-height: 1.6;
+  color: #212529;
+}
+
+.greenhouse .content p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.greenhouse .content ul,
+.greenhouse .content ol {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+}
+
+.greenhouse .content li {
+  margin-bottom: 0.5rem;
+}
+
+.greenhouse .content strong {
+  font-weight: bold;
+}
+
+.greenhouse .content em {
+  font-style: italic;
+}
+
+.greenhouse .content a {
+  color: #94823b;
+  text-decoration: none;
+}
+
+.greenhouse .content a:hover {
+  color: #5d5225;
+  text-decoration: underline;
+}
+
+.greenhouse .content h2,
+.greenhouse .content h3,
+.greenhouse .content h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.greenhouse .content-conclusion {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}
+
+.greenhouse #grnhse_app {
+  margin-top: 2rem;
+}
+
+.greenhouse #grnhse_app iframe {
+  width: 100% !important;
+  border: none;
+  min-height: 800px;
+}
+
+/* ===========================
+   Buttons
+   =========================== */
+
+.greenhouse .gh-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.greenhouse .gh-btn-primary {
+  background: #94823b;
+  color: white;
+}
+
+.greenhouse .gh-btn-primary:hover {
+  background: #796a30;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(148, 130, 59, 0.3);
+}
+
+.greenhouse .gh-btn-secondary {
+  background: transparent;
+  color: #94823b;
+  border: 2px solid #94823b;
+}
+
+.greenhouse .gh-btn-secondary:hover {
+  background: #94823b;
+  color: white;
+}
+
+.greenhouse .gh-btn-large {
+  padding: 18px 40px;
+}
+
+.greenhouse .gh-apply-button-wrapper {
+  text-align: center;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+}
+
+/* ===========================
+   Application Section
+   =========================== */
+
+.greenhouse .gh-application-section {
+  background: #f8f9fa;
+  padding: 40px;
+  border-radius: 8px;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.greenhouse .gh-application-section h2 {
+  margin-top: 0;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.greenhouse .gh-job-apply-section {
+  margin-top: 20px;
+}
+
+.greenhouse #grnhse_app {
+  text-align: left;
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.greenhouse #grnhse_app iframe {
+  width: 100% !important;
+  min-height: 800px;
+  border: none;
+}
+
+.greenhouse .gh-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.greenhouse .gh-form-group {
+  margin-bottom: 24px;
+}
+
+.greenhouse .gh-form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.greenhouse .gh-form-group input[type="text"],
+.greenhouse .gh-form-group input[type="email"],
+.greenhouse .gh-form-group input[type="tel"],
+.greenhouse .gh-form-group input[type="url"],
+.greenhouse .gh-form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.greenhouse .gh-form-group input[type="file"] {
+  width: 100%;
+  padding: 8px 0;
+}
+
+.greenhouse .gh-form-group small {
+  display: block;
+  margin-top: 6px;
+  color: #666;
+}
+
+.greenhouse .gh-btn-submit {
+  width: 100%;
+}
+
+.greenhouse .gh-form-message {
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.greenhouse .gh-form-message.success {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.greenhouse .gh-form-message.error {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* ===========================
+   Responsive Design
+   =========================== */
+
+@media (max-width: 768px) {
+  .greenhouse .gh-job-single-meta {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .greenhouse .gh-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .greenhouse .gh-application-section {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .greenhouse .gh-btn {
+    padding: 10px 20px;
+  }
+}

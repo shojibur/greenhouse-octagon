@@ -1,0 +1,1279 @@
+<div class="wrapper d-flex align-items-center">
+  <div class="col px-0">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div id="field-keyword" class="form-group row">
+            <div class="field-label col-12">
+              <label for="keyword"><h3>Keyword Search</h3></label>
+            </div>
+            <div class="field-field col-12 col-md-8">
+              <div class="input-group">
+                <input
+                  type="text"
+                  name="keyword"
+                  id="keyword"
+                  value=""
+                  class="form-control type__text"
+                />
+                <div class="input-group-append">
+                  <span class="input-group-text"
+                    ><i class="fas fa-search"></i
+                  ></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-4">
+          <div id="field-country" class="form-group row">
+            <div class="field-label col-12">
+              <label for="country"><h3>Select Country</h3></label>
+            </div>
+            <div class="field-field col-12">
+              <div class="dropdown bootstrap-select form-control type__select">
+                <select
+                  name="country"
+                  id="country"
+                  class="form-control selectpicker type__select"
+                  data-dropup-auto="false"
+                  data-display="static"
+                  tabindex="-98"
+                >
+                  <option value="">All Countries</option>
+                  <option value="4">Australia</option>
+                  <option value="3">Germany</option>
+                  <option value="5">Singapore</option>
+                  <option value="1">United Kingdom</option>
+                  <option value="2">United States of America</option></select
+                ><button
+                  type="button"
+                  class="btn dropdown-toggle bs-placeholder btn-light"
+                  data-toggle="dropdown"
+                  data-display="static"
+                  role="button"
+                  data-id="country"
+                  title="All Countries"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">All Countries</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu" role="combobox">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    aria-expanded="false"
+                    tabindex="-1"
+                  >
+                    <ul class="dropdown-menu inner show"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div id="field-location" class="form-group row">
+            <div class="field-label col-12">
+              <label for="location"><h3>Select Location</h3></label>
+            </div>
+            <div class="field-field col-12">
+              <div class="dropdown bootstrap-select form-control type__select">
+                <select
+                  name="location"
+                  id="location"
+                  class="form-control selectpicker type__select"
+                  data-dropup-auto="false"
+                  data-display="static"
+                  tabindex="-98"
+                >
+                  <option value="">All Locations</option>
+                  <option value="3" data-country="2">
+                    Atlanta, Georgia, United States
+                  </option>
+                  <option value="13" data-country="2">
+                    Atlanta, Georgia, United States; California, United States;
+                    Century City, California, United States; Charlotte, North
+                    Carolina, United States; Chicago, Illinois, United States;
+                    New York, New York, United States; Stamford, Connecticut,
+                    United States
+                  </option>
+                  <option value="14" data-country="2">
+                    Atlanta, Georgia, United States; Century City, California,
+                    United States; Charlotte, North Carolina, United States;
+                    Chicago, Illinois, United States; New York, New York, United
+                    States; Stamford, Connecticut, United States
+                  </option>
+                  <option value="11" data-country="2">
+                    Atlanta, Georgia, United States; Century City, California,
+                    United States; Charlotte, North Carolina, United States;
+                    Chicago, Illinois, United States; New York, New York, United
+                    States; Stamford, Connecticut, United States; United States
+                    of America
+                  </option>
+                  <option value="7" data-country="2">
+                    Atlanta, Georgia, United States; Charlotte, North Carolina,
+                    United States; Chicago, Illinois, United States; Miami,
+                    Florida, United States; New York, New York, United States;
+                    Stamford, Connecticut, United States; United States of
+                    America
+                  </option>
+                  <option value="9" data-country="2">
+                    Atlanta, Georgia, United States; Charlotte, North Carolina,
+                    United States; New York, New York, United States; Stamford,
+                    Connecticut, United States
+                  </option>
+                  <option value="4" data-country="2">
+                    Century City, California, United States
+                  </option>
+                  <option value="8" data-country="2">
+                    Charlotte, North Carolina, United States
+                  </option>
+                  <option value="6" data-country="3">Frankfurt, Germany</option>
+                  <option value="1" data-country="1">
+                    London, England, United Kingdom
+                  </option>
+                  <option value="5" data-country="3">München, Germany</option>
+                  <option value="15" data-country="2">
+                    New York, New York, United States; Stamford, Connecticut,
+                    United States
+                  </option>
+                  <option value="12" data-country="5">Singapore</option>
+                  <option value="10" data-country="4">
+                    Sydney, New South Wales, Australia
+                  </option>
+                  <option value="2" data-country="2">
+                    United States of America
+                  </option></select
+                ><button
+                  type="button"
+                  class="btn dropdown-toggle bs-placeholder btn-light"
+                  data-toggle="dropdown"
+                  data-display="static"
+                  role="button"
+                  data-id="location"
+                  title="All Locations"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">All Locations</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu" role="combobox">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    aria-expanded="false"
+                    tabindex="-1"
+                  >
+                    <ul class="dropdown-menu inner show"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div id="field-type" class="form-group row">
+            <div class="field-label col-12">
+              <label for="type"><h3>Employment Type</h3></label>
+            </div>
+            <div class="field-field col-12">
+              <div class="dropdown bootstrap-select form-control type__select">
+                <select
+                  name="type"
+                  id="type"
+                  class="form-control selectpicker type__select"
+                  data-dropup-auto="false"
+                  data-display="static"
+                  tabindex="-98"
+                >
+                  <option value="">All Types</option>
+                  <option value="3">Intern</option>
+                  <option value="2">Regular/Permanent</option>
+                  <option value="1">Temporary/FTC</option></select
+                ><button
+                  type="button"
+                  class="btn dropdown-toggle bs-placeholder btn-light"
+                  data-toggle="dropdown"
+                  data-display="static"
+                  role="button"
+                  data-id="type"
+                  title="All Types"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">All Types</div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu" role="combobox">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    aria-expanded="false"
+                    tabindex="-1"
+                  >
+                    <ul class="dropdown-menu inner show"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-8">
+          <div id="field-department" class="form-group row d-md-none">
+            <div class="field-label col-12">
+              <label for="department"><h3>Select Department</h3></label>
+            </div>
+            <div class="field-field col-12">
+              <div class="dropdown bootstrap-select form-control type__select">
+                <select
+                  name="department"
+                  id="department"
+                  class="form-control selectpicker type__select"
+                  data-dropup-auto="false"
+                  data-display="static"
+                  tabindex="-98"
+                >
+                  <option value="">All Departments</option>
+                  <option value="4043694002">Account Management</option>
+                  <option value="4043862002">Copywriting</option>
+                  <option value="4043865002">Design</option>
+                  <option value="4112152002">
+                    Experiential and Events Production
+                  </option>
+                  <option value="4043706002">General Management</option>
+                  <option value="4112100002">Marketing Consulting</option>
+                  <option value="4112087002">
+                    Sales and Client Operations
+                  </option>
+                  <option value="4112135002">
+                    Social Media &amp; Influencer Marketing
+                  </option>
+                  <option value="4112101002">
+                    Sponsorship and Talent Consulting
+                  </option>
+                  <option value="4053887002">Strategy</option>
+                  <option value="4053882002">
+                    ZZZ_DNU_Client Services
+                  </option></select
+                ><button
+                  type="button"
+                  class="btn dropdown-toggle bs-placeholder btn-light"
+                  data-toggle="dropdown"
+                  data-display="static"
+                  role="button"
+                  data-id="department"
+                  title="All Departments"
+                >
+                  <div class="filter-option">
+                    <div class="filter-option-inner">
+                      <div class="filter-option-inner-inner">
+                        All Departments
+                      </div>
+                    </div>
+                  </div>
+                </button>
+                <div class="dropdown-menu" role="combobox">
+                  <div
+                    class="inner show"
+                    role="listbox"
+                    aria-expanded="false"
+                    tabindex="-1"
+                  >
+                    <ul class="dropdown-menu inner show"></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-12 col-md-6 d-none d-md-block">
+          <h2>Departments</h2>
+          <ul id="list-dept">
+            <li class="py-3 active" data-department_id="">
+              All Departments <span>(40)</span>
+            </li>
+            <li class="py-3" data-department_id="4043694002">
+              Account Management <span>(7)</span>
+            </li>
+            <li class="py-3" data-department_id="4043862002">
+              Copywriting <span>(1)</span>
+            </li>
+            <li class="py-3" data-department_id="4043865002">
+              Design <span>(1)</span>
+            </li>
+            <li class="py-3" data-department_id="4112152002">
+              Experiential and Events Production <span>(10)</span>
+            </li>
+            <li class="py-3" data-department_id="4043706002">
+              General Management <span>(1)</span>
+            </li>
+            <li class="py-3" data-department_id="4112100002">
+              Marketing Consulting <span>(9)</span>
+            </li>
+            <li class="py-3" data-department_id="4112087002">
+              Sales and Client Operations <span>(1)</span>
+            </li>
+            <li class="py-3" data-department_id="4112135002">
+              Social Media &amp; Influencer Marketing <span>(1)</span>
+            </li>
+            <li class="py-3" data-department_id="4112101002">
+              Sponsorship and Talent Consulting <span>(1)</span>
+            </li>
+            <li class="py-3" data-department_id="4053887002">
+              Strategy <span>(3)</span>
+            </li>
+            <li class="py-3" data-department_id="4053882002">
+              ZZZ_DNU_Client Services <span>(5)</span>
+            </li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-6">
+          <h2>Job Openings</h2>
+          <ul id="list-jobs">
+            <li
+              id="job-8201055002"
+              data-dept="4053882002"
+              data-office="4029601002"
+              data-country="1"
+              data-loc="1"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8201055002?gh_jid=8201055002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Director (Sports Sponsorships, Brand Asset
+                    Management and Rights Approval)
+                  </div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8202984002"
+              data-dept="4053882002"
+              data-office="4029579002"
+              data-country="1"
+              data-loc="1"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8202984002?gh_jid=8202984002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Director (Sports Sponsorships, Creative and
+                    Activations)
+                  </div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8202995002"
+              data-dept="4053882002"
+              data-office="4029579002"
+              data-country="1"
+              data-loc="1"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8202995002?gh_jid=8202995002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Director (Sports Sponsorships, PR Communications and
+                    Media)
+                  </div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8206901002"
+              data-dept="4112100002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8206901002?gh_jid=8206901002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Director (Talent Management &amp; Procurement)
+                    (Financial Services Client)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8198395002"
+              data-dept="4112100002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8198395002?gh_jid=8198395002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Director (Tennis) (Adult Beverage Client)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8176515002"
+              data-dept="4112100002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="3"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8176515002?gh_jid=8176515002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Executive(Sports Sponsorship) (Energy Client)
+                  </div>
+                  <div class="location">Atlanta, Georgia, United States</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8203208002"
+              data-dept="4112100002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="4"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8203208002?gh_jid=8203208002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Executive (Team Sports Sponsorships) (Payment
+                    Services Client)
+                  </div>
+                  <div class="location">
+                    Century City, California, United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8096284002"
+              data-dept="4112100002"
+              data-office="4029454002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8096284002?gh_jid=8096284002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Manager, (LATAM/Bilingual), (Payment Services
+                    Client)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8147262002"
+              data-dept="4112100002"
+              data-office="4029454002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8147262002?gh_jid=8147262002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Manager, (Soccer), (Health and Wellness Retail
+                    Client)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8116876002"
+              data-dept="4043694002"
+              data-office="4029378002"
+              data-country="3"
+              data-loc="5"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8116876002?gh_jid=8116876002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Manager - Sponsorship &amp; Kommunikation (m/w/d)
+                  </div>
+                  <div class="location">München, Germany</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8116903002"
+              data-dept="4043694002"
+              data-office="4029378002"
+              data-country="3"
+              data-loc="6"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8116903002?gh_jid=8116903002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Manager - Sponsorship &amp; Kommunikation (m/w/d)
+                  </div>
+                  <div class="location">Frankfurt, Germany</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8202974002"
+              data-dept="4053882002"
+              data-office="4029579002"
+              data-country="1"
+              data-loc="1"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8202974002?gh_jid=8202974002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Account Manager (Sports Sponsorships Brand Asset Management
+                    and Rights Approval)
+                  </div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8080266002"
+              data-dept="4112087002"
+              data-office="4029601002"
+              data-country="1"
+              data-loc="1"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8080266002?gh_jid=8080266002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Business Affairs Manager</div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8203996002"
+              data-dept="4043865002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="7"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8203996002?gh_jid=8203996002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Designer (Experiential)</div>
+                  <div class="location">
+                    Atlanta, Georgia, United States; Charlotte, North Carolina,
+                    United States; Chicago, Illinois, United States; Miami,
+                    Florida, United States; New York, New York, United States;
+                    Stamford, Connecticut, United States; United States of
+                    America
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8204219002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="8"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8204219002?gh_jid=8204219002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Event Executive (Soccer) (Financial Services Client)
+                    (Contract)
+                  </div>
+                  <div class="location">
+                    Charlotte, North Carolina, United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8208436002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="9"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8208436002?gh_jid=8208436002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Event Executive (Travel/Hospitality Client)
+                  </div>
+                  <div class="location">
+                    Atlanta, Georgia, United States; Charlotte, North Carolina,
+                    United States; New York, New York, United States; Stamford,
+                    Connecticut, United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8066089002"
+              data-dept="4043694002"
+              data-office="4029540002"
+              data-country="4"
+              data-loc="10"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8066089002?gh_jid=8066089002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Event Manager (Fixed-Term Contract)</div>
+                  <div class="location">Sydney, New South Wales, Australia</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8207175002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="2"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8207175002?gh_jid=8207175002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Experiential Director (Global Soccer) (Financial Services
+                    Client) (Contract)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8203913002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="7"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8203913002?gh_jid=8203913002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Experiential Director (Ticket Management) (Adult Beverage
+                    Client) (Contract)
+                  </div>
+                  <div class="location">
+                    Atlanta, Georgia, United States; Charlotte, North Carolina,
+                    United States; Chicago, Illinois, United States; Miami,
+                    Florida, United States; New York, New York, United States;
+                    Stamford, Connecticut, United States; United States of
+                    America
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8185959002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="11"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8185959002?gh_jid=8185959002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Experiential Manager (Driving Experience Program) (Luxury
+                    Automotive Client)
+                  </div>
+                  <div class="location">
+                    Atlanta, Georgia, United States; Century City, California,
+                    United States; Charlotte, North Carolina, United States;
+                    Chicago, Illinois, United States; New York, New York, United
+                    States; Stamford, Connecticut, United States; United States
+                    of America
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8189461002"
+              data-dept="4112100002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8189461002?gh_jid=8189461002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Group Account Director (CSR + Soccer Partnerships)
+                    (Financial Services Client)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8169178002"
+              data-dept="4053882002"
+              data-office="4029601002"
+              data-country="1"
+              data-loc="1"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8169178002?gh_jid=8169178002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Group Director (12 month fixed contract)
+                  </div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8066159002"
+              data-dept="4043862002"
+              data-office="4029614002"
+              data-country="5"
+              data-loc="12"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8066159002?gh_jid=8066159002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Junior Copywriter</div>
+                  <div class="location">Singapore</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8095321002"
+              data-dept="4043706002"
+              data-office="4029540002"
+              data-country="4"
+              data-loc="10"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8095321002?gh_jid=8095321002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Managing Director, Australia</div>
+                  <div class="location">Sydney, New South Wales, Australia</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8147928002"
+              data-dept="4043694002"
+              data-office="4029436002"
+              data-country="5"
+              data-loc="12"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8147928002?gh_jid=8147928002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Senior Account Executive</div>
+                  <div class="location">Singapore</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8172854002"
+              data-dept="4043694002"
+              data-office="4029579002"
+              data-country="1"
+              data-loc="1"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8172854002?gh_jid=8172854002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Senior Account Executive - F1</div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8180679002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="8"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8180679002?gh_jid=8180679002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Senior Event Executive - Hospitality (Global Sports
+                    Sponsorships) (Financial Services Client)
+                  </div>
+                  <div class="location">
+                    Charlotte, North Carolina, United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8204213002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="8"
+              data-type="1"
+              class="keyword-match"
+            >
+              <a
+                href="/8204213002?gh_jid=8204213002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Senior Event Executive (Soccer) (Financial Services Client)
+                    (Contract)
+                  </div>
+                  <div class="location">
+                    Charlotte, North Carolina, United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8180814002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="13"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8180814002?gh_jid=8180814002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Senior Experiential Manager (Field Operations)
+                    (Travel/Hospitality Client)
+                  </div>
+                  <div class="location">
+                    Atlanta, Georgia, United States; California, United States;
+                    Century City, California, United States; Charlotte, North
+                    Carolina, United States; Chicago, Illinois, United States;
+                    New York, New York, United States; Stamford, Connecticut,
+                    United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8184258002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="14"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8184258002?gh_jid=8184258002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Senior Hospitality Manager (Global Sports Programs)
+                    (Financial Services Client)
+                  </div>
+                  <div class="location">
+                    Atlanta, Georgia, United States; Century City, California,
+                    United States; Charlotte, North Carolina, United States;
+                    Chicago, Illinois, United States; New York, New York, United
+                    States; Stamford, Connecticut, United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8183589002"
+              data-dept="4043694002"
+              data-office="4029601002"
+              data-country="1"
+              data-loc="1"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8183589002?gh_jid=8183589002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Solutions Architect</div>
+                  <div class="location">London, England, United Kingdom</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8167727002"
+              data-dept="4053887002"
+              data-office="4029454002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8167727002?gh_jid=8167727002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Solutions Engineer</div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8178296002"
+              data-dept="4053887002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8178296002?gh_jid=8178296002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Sponsorship Strategy (Fixed Term Contract)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-7333588002"
+              data-dept="4112101002"
+              data-office="4029572002"
+              data-country="4"
+              data-loc="10"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/7333588002?gh_jid=7333588002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Sports Consultancy and Data Analyst Intern (Futures Sport
+                    &amp; Entertainment)
+                  </div>
+                  <div class="location">Sydney, New South Wales, Australia</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8066597002"
+              data-dept="4112152002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="15"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8066597002?gh_jid=8066597002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Sr. Experiential Director, Culinary Strategy (Payment
+                    Services Client)
+                  </div>
+                  <div class="location">
+                    New York, New York, United States; Stamford, Connecticut,
+                    United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8141633002"
+              data-dept="4112100002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8141633002?gh_jid=8141633002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Sr. Experiential Manager (Sports &amp; Lifestyle
+                    events)(Payment Services Client)
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8197920002"
+              data-dept="4112135002"
+              data-office="4029454002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8197920002?gh_jid=8197920002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">Strategist, Influencer Marketing</div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8144158002"
+              data-dept="4043694002"
+              data-office="4029540002"
+              data-country="4"
+              data-loc="10"
+              data-type="3"
+              class="keyword-match"
+            >
+              <a
+                href="/8144158002?gh_jid=8144158002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Strategy &amp; Account Coordinator Intern
+                  </div>
+                  <div class="location">Sydney, New South Wales, Australia</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8046407002"
+              data-dept="4053887002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="2"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8046407002?gh_jid=8046407002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Vice President, Sponsorship Strategy &amp; Insights
+                  </div>
+                  <div class="location">United States of America</div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+            <li
+              id="job-8114000002"
+              data-dept="4112100002"
+              data-office="4029492002"
+              data-country="2"
+              data-loc="15"
+              data-type="2"
+              class="keyword-match"
+            >
+              <a
+                href="/8114000002?gh_jid=8114000002"
+                class="d-flex align-items-center py-3"
+              >
+                <div class="col job-detail pl-0">
+                  <div class="title">
+                    Vice President, Strategic Operations and Project Management
+                    (Payment Services Client)
+                  </div>
+                  <div class="location">
+                    New York, New York, United States; Stamford, Connecticut,
+                    United States
+                  </div>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
