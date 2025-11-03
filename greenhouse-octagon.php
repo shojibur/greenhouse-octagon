@@ -270,12 +270,52 @@ function gh_octagon_schedule_cron() {
 }
 add_action('gh_octagon_import_hook', 'gh_octagon_import_jobs');
 
-// Get unique departments
-function gh_octagon_get_departments() {
+// Get unique departments with counts based on current filters
+function gh_octagon_get_departments($filters = array()) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'gh_octagon_jobs';
 
-    $jobs = $wpdb->get_results("SELECT departments FROM $table_name");
+    // Build WHERE clause based on filters (excluding department itself)
+    $where = array('1=1');
+    $where_values = array();
+
+    if (!empty($filters['search'])) {
+        $where[] = '(title LIKE %s OR content LIKE %s OR requisition_id LIKE %s)';
+        $search_term = '%' . $wpdb->esc_like($filters['search']) . '%';
+        $where_values[] = $search_term;
+        $where_values[] = $search_term;
+        $where_values[] = $search_term;
+    }
+
+    if (!empty($filters['country'])) {
+        $where[] = 'location_country = %s';
+        $where_values[] = $filters['country'];
+    }
+
+    if (!empty($filters['location'])) {
+        $where[] = 'location_city = %s';
+        $where_values[] = $filters['location'];
+    }
+
+    if (!empty($filters['employment_type'])) {
+        $where[] = 'employment_type = %s';
+        $where_values[] = $filters['employment_type'];
+    }
+
+    if (!empty($filters['board'])) {
+        $where[] = 'board_name = %s';
+        $where_values[] = $filters['board'];
+    }
+
+    $where_sql = implode(' AND ', $where);
+
+    // Get jobs matching filters
+    if (!empty($where_values)) {
+        $jobs = $wpdb->get_results($wpdb->prepare("SELECT departments FROM $table_name WHERE $where_sql", $where_values));
+    } else {
+        $jobs = $wpdb->get_results("SELECT departments FROM $table_name WHERE $where_sql");
+    }
+
     $departments = array();
 
     foreach ($jobs as $job) {
@@ -294,12 +334,54 @@ function gh_octagon_get_departments() {
     return $departments;
 }
 
-// Get unique locations (cities)
-function gh_octagon_get_locations() {
+// Get unique locations (cities) with counts based on current filters
+function gh_octagon_get_locations($filters = array()) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'gh_octagon_jobs';
 
-    $locations = $wpdb->get_results("SELECT DISTINCT location_city FROM $table_name WHERE location_city != '' ORDER BY location_city");
+    // Build WHERE clause based on filters (excluding location itself)
+    $where = array('location_city != ""');
+    $where_values = array();
+
+    if (!empty($filters['search'])) {
+        $where[] = '(title LIKE %s OR content LIKE %s OR requisition_id LIKE %s)';
+        $search_term = '%' . $wpdb->esc_like($filters['search']) . '%';
+        $where_values[] = $search_term;
+        $where_values[] = $search_term;
+        $where_values[] = $search_term;
+    }
+
+    if (!empty($filters['department'])) {
+        $where[] = 'departments LIKE %s';
+        $where_values[] = '%' . $wpdb->esc_like($filters['department']) . '%';
+    }
+
+    if (!empty($filters['country'])) {
+        $where[] = 'location_country = %s';
+        $where_values[] = $filters['country'];
+    }
+
+    if (!empty($filters['employment_type'])) {
+        $where[] = 'employment_type = %s';
+        $where_values[] = $filters['employment_type'];
+    }
+
+    if (!empty($filters['board'])) {
+        $where[] = 'board_name = %s';
+        $where_values[] = $filters['board'];
+    }
+
+    $where_sql = implode(' AND ', $where);
+
+    // Get locations with job counts
+    $query = "SELECT location_city, COUNT(*) as job_count FROM $table_name WHERE $where_sql GROUP BY location_city ORDER BY location_city";
+
+    if (!empty($where_values)) {
+        $locations = $wpdb->get_results($wpdb->prepare($query, $where_values));
+    } else {
+        $locations = $wpdb->get_results($query);
+    }
+
     return $locations;
 }
 
@@ -410,10 +492,19 @@ function gh_octagon_jobs_shortcode($atts) {
         $jobs = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name WHERE $where_sql ORDER BY title ASC LIMIT %d OFFSET %d", $per_page, $offset));
     }
 
-    // Get filter options
-    $departments = gh_octagon_get_departments();
+    // Get filter options with current filters applied
+    $current_filters = array(
+        'search' => $search,
+        'country' => $country,
+        'location' => $location,
+        'employment_type' => $employment_type,
+        'board' => $board
+    );
+
+    // Get departments and locations with counts based on other filters
+    $departments = gh_octagon_get_departments(array_diff_key($current_filters, array('department' => '')));
+    $locations = gh_octagon_get_locations(array_diff_key($current_filters, array('location' => '')));
     $countries = gh_octagon_get_countries();
-    $locations = gh_octagon_get_locations();
     $employment_types = gh_octagon_get_employment_types();
     $boards_list = gh_octagon_get_boards();
 

@@ -387,6 +387,24 @@
 }
 
 /* ===========================
+   NEW Badge
+   =========================== */
+
+.greenhouse .gh-new-badge {
+  display: inline-block;
+  background: #e7010a;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-left: 8px;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ===========================
    No Jobs Message
    =========================== */
 
