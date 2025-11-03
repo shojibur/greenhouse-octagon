@@ -412,6 +412,18 @@ function gh_octagon_get_boards() {
     return $boards;
 }
 
+// Get job URL slug based on board
+function gh_octagon_get_job_slug($board_name) {
+    $board_slugs = get_option('gh_octagon_board_slugs', array());
+
+    // Ensure $board_slugs is an array
+    if (!is_array($board_slugs)) {
+        $board_slugs = array();
+    }
+
+    return isset($board_slugs[$board_name]) ? $board_slugs[$board_name] : 'job';
+}
+
 // Job listing shortcode
 add_shortcode('gh_octagon_jobs', 'gh_octagon_jobs_shortcode');
 function gh_octagon_jobs_shortcode($atts) {
@@ -517,7 +529,23 @@ function gh_octagon_jobs_shortcode($atts) {
 // Add rewrite rules for single job
 add_action('init', 'gh_octagon_rewrite_rules');
 function gh_octagon_rewrite_rules() {
-    add_rewrite_rule('^job/([0-9]+)/?$', 'index.php?gh_job_id=$matches[1]', 'top');
+    // Get all configured board slugs
+    $board_slugs = get_option('gh_octagon_board_slugs', array());
+
+    // Ensure $board_slugs is an array
+    if (!is_array($board_slugs)) {
+        $board_slugs = array();
+    }
+
+    // Get unique slugs (default to 'job')
+    $slugs = array_unique(array_merge(array('job'), array_values($board_slugs)));
+
+    // Add rewrite rule for each slug
+    foreach ($slugs as $slug) {
+        if (!empty($slug)) {
+            add_rewrite_rule('^' . $slug . '/([0-9]+)/?$', 'index.php?gh_job_id=$matches[1]', 'top');
+        }
+    }
 }
 
 // Add query var
@@ -574,6 +602,7 @@ add_action('admin_init', 'gh_octagon_register_settings');
 function gh_octagon_register_settings() {
     register_setting('gh_octagon_settings', 'gh_octagon_api_url'); // Keep for backward compatibility
     register_setting('gh_octagon_settings', 'gh_octagon_boards');
+    register_setting('gh_octagon_settings', 'gh_octagon_board_slugs');
     register_setting('gh_octagon_settings', 'gh_octagon_sync_interval');
     register_setting('gh_octagon_settings', 'gh_octagon_custom_css');
 }
@@ -588,11 +617,29 @@ function gh_octagon_settings_page() {
     if (isset($_POST['gh_octagon_add_board']) && check_admin_referer('gh_octagon_add_board')) {
         $board_name = sanitize_text_field($_POST['board_name']);
         $board_url = esc_url_raw($_POST['board_api_url']);
+        $board_slug = sanitize_title($_POST['board_slug']);
 
         if (!empty($board_name) && !empty($board_url)) {
             $boards = get_option('gh_octagon_boards', array());
+            if (!is_array($boards)) {
+                $boards = array();
+            }
             $boards[$board_name] = $board_url;
             update_option('gh_octagon_boards', $boards);
+
+            // Save board slug if provided
+            if (!empty($board_slug)) {
+                $board_slugs = get_option('gh_octagon_board_slugs', array());
+                if (!is_array($board_slugs)) {
+                    $board_slugs = array();
+                }
+                $board_slugs[$board_name] = $board_slug;
+                update_option('gh_octagon_board_slugs', $board_slugs);
+            }
+
+            // Flush rewrite rules to apply new slug
+            flush_rewrite_rules();
+
             add_settings_error('gh_octagon_messages', 'gh_octagon_message', 'Board added successfully!', 'updated');
         }
     }
@@ -601,10 +648,23 @@ function gh_octagon_settings_page() {
     if (isset($_POST['gh_octagon_remove_board']) && check_admin_referer('gh_octagon_remove_board')) {
         $board_name = sanitize_text_field($_POST['remove_board_name']);
         $boards = get_option('gh_octagon_boards', array());
+        if (!is_array($boards)) {
+            $boards = array();
+        }
         if (isset($boards[$board_name])) {
             // Remove board from configuration
             unset($boards[$board_name]);
             update_option('gh_octagon_boards', $boards);
+
+            // Remove board slug
+            $board_slugs = get_option('gh_octagon_board_slugs', array());
+            if (!is_array($board_slugs)) {
+                $board_slugs = array();
+            }
+            if (isset($board_slugs[$board_name])) {
+                unset($board_slugs[$board_name]);
+                update_option('gh_octagon_board_slugs', $board_slugs);
+            }
 
             // Delete all jobs associated with this board
             global $wpdb;
@@ -613,6 +673,9 @@ function gh_octagon_settings_page() {
 
             // Clear transients
             gh_octagon_clear_transients();
+
+            // Flush rewrite rules
+            flush_rewrite_rules();
 
             add_settings_error('gh_octagon_messages', 'gh_octagon_message',
                 sprintf('Board removed successfully! %d jobs deleted.', $deleted), 'updated');
@@ -632,6 +695,14 @@ function gh_octagon_settings_page() {
     settings_errors('gh_octagon_messages');
 
     $boards = get_option('gh_octagon_boards', array());
+    if (!is_array($boards)) {
+        $boards = array();
+    }
+
+    $board_slugs = get_option('gh_octagon_board_slugs', array());
+    if (!is_array($board_slugs)) {
+        $board_slugs = array();
+    }
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -644,19 +715,24 @@ function gh_octagon_settings_page() {
                 <tr>
                     <th>Board Name</th>
                     <th>API URL</th>
+                    <th>Page Slug</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 <?php if (empty($boards)): ?>
                     <tr>
-                        <td colspan="3">No boards configured yet. Add your first board below.</td>
+                        <td colspan="4">No boards configured yet. Add your first board below.</td>
                     </tr>
                 <?php else: ?>
                     <?php foreach ($boards as $name => $url): ?>
+                        <?php
+                        $slug = isset($board_slugs[$name]) ? $board_slugs[$name] : 'job';
+                        ?>
                         <tr>
                             <td><strong><?php echo esc_html($name); ?></strong></td>
                             <td><?php echo esc_html($url); ?></td>
+                            <td><code><?php echo esc_html($slug); ?></code></td>
                             <td>
                                 <form method="post" style="display:inline;">
                                     <?php wp_nonce_field('gh_octagon_remove_board'); ?>
@@ -693,6 +769,16 @@ function gh_octagon_settings_page() {
                         <input type="url" id="board_api_url" name="board_api_url" class="regular-text" required
                                placeholder="https://boards-api.greenhouse.io/v1/boards/BOARD_NAME/jobs?content=true" />
                         <p class="description">The full Greenhouse API URL for this board</p>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        <label for="board_slug">Page Slug (Optional)</label>
+                    </th>
+                    <td>
+                        <input type="text" id="board_slug" name="board_slug" class="regular-text"
+                               placeholder="e.g., internal-job, career" />
+                        <p class="description">Custom URL slug for this board's jobs (e.g., "internal-job"). If not specified, defaults to "job". Jobs will be accessible at: yoursite.com/<strong>slug</strong>/123</p>
                     </td>
                 </tr>
             </table>

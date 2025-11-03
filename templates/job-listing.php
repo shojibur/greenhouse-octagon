@@ -184,7 +184,11 @@ if (!defined('ABSPATH')) {
                                     data-dept="<?php echo esc_attr($dept_name); ?>"
                                     data-board="<?php echo esc_attr($job->board_name); ?>"
                                     class="keyword-match">
-                                    <a href="<?php echo esc_url(home_url('/job/' . $job->gh_id)); ?>"
+                                    <?php
+                                    // Get the appropriate slug for this job's board
+                                    $job_slug = gh_octagon_get_job_slug($job->board_name);
+                                    ?>
+                                    <a href="<?php echo esc_url(home_url('/' . $job_slug . '/' . $job->gh_id)); ?>"
                                        class="d-flex align-items-center py-3">
                                         <div class="col job-detail pl-0">
                                             <div class="title">
