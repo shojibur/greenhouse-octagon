@@ -385,12 +385,54 @@ function gh_octagon_get_locations($filters = array()) {
     return $locations;
 }
 
-// Get unique countries
-function gh_octagon_get_countries() {
+// Get unique countries with counts based on current filters
+function gh_octagon_get_countries($filters = array()) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'gh_octagon_jobs';
 
-    $countries = $wpdb->get_results("SELECT DISTINCT location_country FROM $table_name WHERE location_country != '' ORDER BY location_country");
+    // Build WHERE clause based on filters (excluding country itself)
+    $where = array('location_country != ""');
+    $where_values = array();
+
+    if (!empty($filters['search'])) {
+        $where[] = '(title LIKE %s OR content LIKE %s OR requisition_id LIKE %s)';
+        $search_term = '%' . $wpdb->esc_like($filters['search']) . '%';
+        $where_values[] = $search_term;
+        $where_values[] = $search_term;
+        $where_values[] = $search_term;
+    }
+
+    if (!empty($filters['department'])) {
+        $where[] = 'departments LIKE %s';
+        $where_values[] = '%' . $wpdb->esc_like($filters['department']) . '%';
+    }
+
+    if (!empty($filters['location'])) {
+        $where[] = 'location = %s';
+        $where_values[] = $filters['location'];
+    }
+
+    if (!empty($filters['employment_type'])) {
+        $where[] = 'employment_type = %s';
+        $where_values[] = $filters['employment_type'];
+    }
+
+    if (!empty($filters['board'])) {
+        $where[] = 'board_name = %s';
+        $where_values[] = $filters['board'];
+    }
+
+    $where_sql = implode(' AND ', $where);
+
+    // Get countries with job counts
+    $query = "SELECT location_country, COUNT(*) as job_count FROM $table_name WHERE $where_sql GROUP BY location_country ORDER BY location_country";
+
+    if (!empty($where_values)) {
+        $countries = $wpdb->get_results($wpdb->prepare($query, $where_values));
+    } else {
+        $countries = $wpdb->get_results($query);
+    }
+
     return $countries;
 }
 
@@ -516,7 +558,7 @@ function gh_octagon_jobs_shortcode($atts) {
     // Get departments and locations with counts based on other filters
     $departments = gh_octagon_get_departments(array_diff_key($current_filters, array('department' => '')));
     $locations = gh_octagon_get_locations(array_diff_key($current_filters, array('location' => '')));
-    $countries = gh_octagon_get_countries();
+    $countries = gh_octagon_get_countries(array_diff_key($current_filters, array('country' => '')));
     $employment_types = gh_octagon_get_employment_types();
     $boards_list = gh_octagon_get_boards();
 
