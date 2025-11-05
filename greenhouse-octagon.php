@@ -334,13 +334,13 @@ function gh_octagon_get_departments($filters = array()) {
     return $departments;
 }
 
-// Get unique locations (cities) with counts based on current filters
+// Get unique locations (full location string) with counts based on current filters
 function gh_octagon_get_locations($filters = array()) {
     global $wpdb;
     $table_name = $wpdb->prefix . 'gh_octagon_jobs';
 
     // Build WHERE clause based on filters (excluding location itself)
-    $where = array('location_city != ""');
+    $where = array('location != ""');
     $where_values = array();
 
     if (!empty($filters['search'])) {
@@ -373,8 +373,8 @@ function gh_octagon_get_locations($filters = array()) {
 
     $where_sql = implode(' AND ', $where);
 
-    // Get locations with job counts
-    $query = "SELECT location_city, COUNT(*) as job_count FROM $table_name WHERE $where_sql GROUP BY location_city ORDER BY location_city";
+    // Get locations with job counts (using full location string)
+    $query = "SELECT location, COUNT(*) as job_count FROM $table_name WHERE $where_sql GROUP BY location ORDER BY location";
 
     if (!empty($where_values)) {
         $locations = $wpdb->get_results($wpdb->prepare($query, $where_values));
@@ -471,7 +471,7 @@ function gh_octagon_jobs_shortcode($atts) {
     }
 
     if ($location) {
-        $where[] = 'location_city = %s';
+        $where[] = 'location = %s';
         $where_values[] = $location;
     }
 

@@ -75,9 +75,9 @@ if (!defined('ABSPATH')) {
                                         class="form-control type__select">
                                     <option value="">All Locations</option>
                                     <?php foreach ($locations as $loc): ?>
-                                        <option value="<?php echo esc_attr($loc->location_city); ?>"
-                                                <?php selected($location, $loc->location_city); ?>>
-                                            <?php echo esc_html($loc->location_city); ?>
+                                        <option value="<?php echo esc_attr($loc->location); ?>"
+                                                <?php selected($location, $loc->location); ?>>
+                                            <?php echo esc_html($loc->location); ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
