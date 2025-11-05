@@ -643,10 +643,36 @@ function gh_octagon_admin_menu() {
 add_action('admin_init', 'gh_octagon_register_settings');
 function gh_octagon_register_settings() {
     register_setting('gh_octagon_settings', 'gh_octagon_api_url'); // Keep for backward compatibility
-    register_setting('gh_octagon_settings', 'gh_octagon_boards');
-    register_setting('gh_octagon_settings', 'gh_octagon_board_slugs');
+
+    // Don't register boards and board_slugs as settings since they're managed separately
+    // This prevents them from being deleted when the main settings form is saved
+    register_setting('gh_octagon_settings', 'gh_octagon_boards', array(
+        'sanitize_callback' => 'gh_octagon_preserve_boards'
+    ));
+    register_setting('gh_octagon_settings', 'gh_octagon_board_slugs', array(
+        'sanitize_callback' => 'gh_octagon_preserve_board_slugs'
+    ));
+
     register_setting('gh_octagon_settings', 'gh_octagon_sync_interval');
     register_setting('gh_octagon_settings', 'gh_octagon_custom_css');
+}
+
+// Preserve boards when main settings form is saved
+function gh_octagon_preserve_boards($value) {
+    // If value is empty or not set, return existing boards to prevent deletion
+    if (empty($value)) {
+        return get_option('gh_octagon_boards', array());
+    }
+    return $value;
+}
+
+// Preserve board slugs when main settings form is saved
+function gh_octagon_preserve_board_slugs($value) {
+    // If value is empty or not set, return existing slugs to prevent deletion
+    if (empty($value)) {
+        return get_option('gh_octagon_board_slugs', array());
+    }
+    return $value;
 }
 
 // Settings page
